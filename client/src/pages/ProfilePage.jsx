@@ -14,7 +14,7 @@ import {
   HiOutlineEye,
   HiOutlineEyeSlash,
 } from 'react-icons/hi2';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import * as authService from '../services/authService';
 import * as listService from '../services/listService';
 import { LIST_TYPES } from '../utils/constants';

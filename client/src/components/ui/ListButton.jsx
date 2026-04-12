@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 import * as listService from '../../services/listService';
 import { LIST_TYPES } from '../../utils/constants';
 import Spinner from './Spinner';

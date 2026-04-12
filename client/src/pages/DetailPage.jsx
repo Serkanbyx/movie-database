@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import * as tmdbService from '../services/tmdbService';
 import * as listService from '../services/listService';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { getImageUrl, formatDate, getYear, getMediaTitle, getMediaReleaseDate } from '../utils/helpers';
 import { POSTER_SIZES, BACKDROP_SIZES, MEDIA_TYPES } from '../utils/constants';
 import StarRating from '../components/ui/StarRating';
