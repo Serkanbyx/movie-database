@@ -30,25 +30,4 @@ const protect = async (req, res, next) => {
   }
 };
 
-const optionalAuth = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      req.user = null;
-      return next();
-    }
-
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET);
-    const user = await User.findById(decoded.id);
-
-    req.user = user || null;
-    next();
-  } catch {
-    req.user = null;
-    next();
-  }
-};
-
-module.exports = { protect, optionalAuth };
+module.exports = { protect };

@@ -26,7 +26,8 @@ const register = async (req, res, next) => {
     });
 
     if (existingUser) {
-      const error = new Error('User already exists');
+      const field = existingUser.email === email ? 'Email' : 'Username';
+      const error = new Error(`${field} is already taken`);
       error.statusCode = 400;
       throw error;
     }

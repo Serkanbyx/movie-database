@@ -2,8 +2,9 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const hpp = require('hpp');
+const morgan = require('morgan');
 
-const { PORT, CLIENT_URL } = require('./config/env');
+const { PORT, CLIENT_URL, NODE_ENV } = require('./config/env');
 const connectDB = require('./config/db');
 const { globalLimiter } = require('./middlewares/rateLimiter');
 const errorHandler = require('./middlewares/errorHandler');
@@ -24,6 +25,10 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true, limit: '10kb' }));
   app.use(hpp());
 
+  if (NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+  }
+
   app.use('/api', globalLimiter);
 
   app.use('/api/auth', authRoutes);
@@ -32,6 +37,10 @@ const startServer = async () => {
 
   app.get('/api/health', (req, res) => {
     res.json({ success: true, message: 'Server is running' });
+  });
+
+  app.all('/api/*', (req, res) => {
+    res.status(404).json({ success: false, message: 'API route not found' });
   });
 
   app.use(errorHandler);
