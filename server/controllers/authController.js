@@ -1,4 +1,6 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
+const MovieItem = require('../models/MovieItem');
 const generateToken = require('../utils/generateToken');
 
 const formatUserResponse = (user, token) => ({
@@ -117,12 +119,7 @@ const deleteAccount = async (req, res, next) => {
       throw error;
     }
 
-    const mongoose = require('mongoose');
-    const MovieItem = mongoose.models.MovieItem;
-
-    if (MovieItem) {
-      await MovieItem.deleteMany({ userId: req.user._id });
-    }
+    await MovieItem.deleteMany({ userId: req.user._id });
 
     await User.findByIdAndDelete(req.user._id);
 

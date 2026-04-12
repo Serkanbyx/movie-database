@@ -45,9 +45,6 @@ const searchMovies = async (req, res, next) => {
 
     const page = clampPage(req.query.page);
 
-    // ReDoS prevention — escape regex special chars before any logging/processing
-    const _sanitizedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
     const { data } = await tmdbApi.get('/search/multi', {
       params: { query, page, include_adult: false },
     });

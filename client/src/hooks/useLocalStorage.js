@@ -14,7 +14,7 @@ const useLocalStorage = (key, initialValue) => {
     try {
       localStorage.setItem(key, JSON.stringify(storedValue));
     } catch {
-      console.error(`Failed to save "${key}" to localStorage`);
+      // localStorage write failed (e.g. quota exceeded)
     }
   }, [key, storedValue]);
 

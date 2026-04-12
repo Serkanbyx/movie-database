@@ -50,7 +50,6 @@ const FavoritesPage = () => {
     if (!selectedMovie) return;
 
     const movieId = selectedMovie.movieId;
-    const movieTitle = selectedMovie.movieTitle;
 
     setModalOpen(false);
     setSelectedMovie(null);
@@ -63,10 +62,6 @@ const FavoritesPage = () => {
       await listService.removeFromList(LIST_TYPES.FAVORITE, movieId);
       toast.success(`Removed from favorites`);
 
-      const newTotal = total - 1;
-      const newTotalPages = Math.ceil(newTotal / items.length) || 1;
-
-      // Navigate to previous page if current page is now empty
       if (items.length === 1 && page > 1) {
         setPage(page - 1);
       } else {
