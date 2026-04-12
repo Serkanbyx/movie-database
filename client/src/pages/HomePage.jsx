@@ -3,8 +3,8 @@ import { getTrending, getPopular, getTopRated } from '../services/tmdbService';
 import { getImageUrl, getMediaTitle, truncateText } from '../utils/helpers';
 import { BACKDROP_SIZES } from '../utils/constants';
 import MovieCard from '../components/ui/MovieCard';
+import MovieCardSkeleton from '../components/ui/MovieCardSkeleton';
 import Pagination from '../components/ui/Pagination';
-import Spinner from '../components/ui/Spinner';
 
 const TABS = [
   { id: 'trending', label: 'Trending' },
@@ -149,8 +149,8 @@ const HomePage = () => {
 
         {/* Loading State */}
         {loading && (
-          <div className="flex min-h-[400px] items-center justify-center">
-            <Spinner size="lg" />
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            <MovieCardSkeleton count={20} />
           </div>
         )}
 

@@ -4,8 +4,8 @@ import toast from 'react-hot-toast';
 import * as listService from '../services/listService';
 import { LIST_TYPES } from '../utils/constants';
 import MovieCard from '../components/ui/MovieCard';
+import MovieCardSkeleton from '../components/ui/MovieCardSkeleton';
 import Pagination from '../components/ui/Pagination';
-import Spinner from '../components/ui/Spinner';
 import EmptyState from '../components/ui/EmptyState';
 import ConfirmModal from '../components/ui/ConfirmModal';
 
@@ -90,8 +90,14 @@ const FavoritesPage = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <Spinner size="lg" />
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="h-7 w-7 animate-pulse rounded bg-gray-700" />
+          <div className="h-9 w-48 animate-pulse rounded bg-gray-700" />
+        </div>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <MovieCardSkeleton count={10} />
+        </div>
       </div>
     );
   }
@@ -109,7 +115,7 @@ const FavoritesPage = () => {
       {/* Page Header */}
       <div className="mb-6 flex items-center gap-3">
         <FaHeart className="text-2xl text-red-500" />
-        <h1 className="text-3xl font-bold text-text dark:text-text-dark">
+        <h1 className="text-2xl font-bold text-text sm:text-3xl dark:text-text-dark">
           My Favorites
         </h1>
         {total > 0 && (

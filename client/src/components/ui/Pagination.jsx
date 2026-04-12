@@ -26,7 +26,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = getPageNumbers(currentPage, totalPages);
 
   return (
-    <div className="mt-10 flex items-center justify-center gap-2">
+    <div className="mt-10 flex flex-wrap items-center justify-center gap-2">
       {/* Previous Button */}
       <button
         onClick={() => onPageChange(currentPage - 1)}

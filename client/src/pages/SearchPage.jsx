@@ -3,8 +3,8 @@ import { useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../services/tmdbService';
 import useDebounce from '../hooks/useDebounce';
 import MovieCard from '../components/ui/MovieCard';
+import MovieCardSkeleton from '../components/ui/MovieCardSkeleton';
 import Pagination from '../components/ui/Pagination';
-import Spinner from '../components/ui/Spinner';
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -84,7 +84,7 @@ const SearchPage = () => {
     <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 md:px-8">
       {/* Search Header */}
       <div className="mx-auto max-w-2xl">
-        <h1 className="mb-6 text-center text-3xl font-bold text-text sm:text-4xl dark:text-text-dark">
+        <h1 className="mb-6 text-center text-2xl font-bold text-text sm:text-3xl md:text-4xl dark:text-text-dark">
           Search
         </h1>
 
@@ -127,8 +127,8 @@ const SearchPage = () => {
 
       {/* Loading State */}
       {loading && (
-        <div className="flex min-h-[400px] items-center justify-center">
-          <Spinner size="lg" />
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <MovieCardSkeleton count={20} />
         </div>
       )}
 

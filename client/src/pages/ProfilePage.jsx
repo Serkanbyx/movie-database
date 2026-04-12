@@ -308,7 +308,7 @@ const ProfilePage = () => {
       </section>
 
       {/* ── Stats Section ── */}
-      <section className="mt-6 grid grid-cols-2 gap-4">
+      <section className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="flex items-center gap-4 rounded-xl border border-border-dark bg-surface-dark/60 p-5 backdrop-blur-sm">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500/15">
             <HiOutlineHeart className="h-6 w-6 text-red-500" />

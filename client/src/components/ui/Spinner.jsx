@@ -4,12 +4,15 @@ const sizeMap = {
   lg: 'h-12 w-12 border-4',
 };
 
-const Spinner = ({ size = 'md', className = '' }) => {
+const Spinner = ({ size = 'md', text, className = '' }) => {
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <div className={`flex flex-col items-center justify-center gap-3 ${className}`}>
       <div
         className={`${sizeMap[size]} animate-spin rounded-full border-primary border-t-transparent`}
       />
+      {text && (
+        <p className="text-sm text-text-muted dark:text-text-muted-dark">{text}</p>
+      )}
     </div>
   );
 };
