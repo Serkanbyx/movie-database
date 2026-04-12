@@ -9,6 +9,7 @@ const ConfirmModal = ({
   onConfirm,
   onCancel,
   variant = 'default',
+  children,
 }) => {
   const confirmRef = useRef(null);
   const cancelRef = useRef(null);
@@ -24,7 +25,7 @@ const ConfirmModal = ({
       // Focus trap
       if (e.key === 'Tab') {
         const focusable = modalRef.current?.querySelectorAll(
-          'button:not([disabled])'
+          'button:not([disabled]), input:not([disabled])'
         );
         if (!focusable?.length) return;
 
@@ -88,7 +89,9 @@ const ConfirmModal = ({
           {title}
         </h3>
 
-        <p className="mb-6 text-sm text-text-muted-dark">{message}</p>
+        <p className="mb-4 text-sm text-text-muted-dark">{message}</p>
+
+        {children && <div className="mb-6">{children}</div>}
 
         <div className="flex justify-end gap-3">
           <button

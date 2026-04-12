@@ -69,6 +69,11 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  const updateToken = (newToken) => {
+    localStorage.setItem('token', newToken);
+    setToken(newToken);
+  };
+
   const value = {
     user,
     token,
@@ -77,6 +82,7 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     updateUser,
+    updateToken,
     isAuthenticated: Boolean(user),
   };
 
