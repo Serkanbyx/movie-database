@@ -11,6 +11,7 @@ import CastCard from '../components/ui/CastCard';
 import ListButton from '../components/ui/ListButton';
 import MovieCard from '../components/ui/MovieCard';
 import DetailPageSkeleton from '../components/ui/DetailPageSkeleton';
+import NotFoundPage from './NotFoundPage';
 
 const DetailPage = () => {
   const { mediaType, id } = useParams();
@@ -23,11 +24,10 @@ const DetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const isValidMediaType = mediaType === MEDIA_TYPES.MOVIE || mediaType === MEDIA_TYPES.TV;
+
   useEffect(() => {
-    if (mediaType !== MEDIA_TYPES.MOVIE && mediaType !== MEDIA_TYPES.TV) {
-      navigate('/404', { replace: true });
-      return;
-    }
+    if (!isValidMediaType) return;
 
     const fetchData = async () => {
       setLoading(true);
@@ -62,7 +62,7 @@ const DetailPage = () => {
     };
 
     fetchData();
-  }, [mediaType, id, isAuthenticated, navigate]);
+  }, [mediaType, id, isAuthenticated, isValidMediaType]);
 
   const handleListToggle = (type) => {
     setListStatus((prev) => ({
@@ -86,6 +86,8 @@ const DetailPage = () => {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
+
+  if (!isValidMediaType) return <NotFoundPage />;
 
   if (loading) return <DetailPageSkeleton />;
 
