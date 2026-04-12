@@ -1,7 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const mongoSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 
 const { PORT, CLIENT_URL } = require('./config/env');
@@ -23,7 +22,6 @@ const startServer = async () => {
   app.use(cors({ origin: CLIENT_URL, credentials: true }));
   app.use(express.json({ limit: '10kb' }));
   app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-  app.use(mongoSanitize());
   app.use(hpp());
 
   app.use('/api', globalLimiter);

@@ -2,7 +2,7 @@
 
 A full-stack movie database application built with React and Express.js, powered by the TMDB API. Browse trending, popular, and top-rated movies & TV shows, manage your personal favorites and watchlist, and explore detailed cast & crew information.
 
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)
@@ -45,13 +45,13 @@ A full-stack movie database application built with React and Express.js, powered
 
 | Layer        | Technology                                    |
 | ------------ | --------------------------------------------- |
-| Frontend     | React 19, Vite, TailwindCSS v4, React Router  |
+| Frontend     | React 18, Vite, TailwindCSS v4, React Router v6 |
 | Backend      | Node.js, Express                              |
 | Database     | MongoDB, Mongoose                             |
 | Auth         | JWT (jsonwebtoken, bcryptjs)                  |
 | External API | TMDB (The Movie Database) API                 |
 | HTTP Client  | Axios                                         |
-| Security     | Helmet, CORS, HPP, express-mongo-sanitize, express-rate-limit |
+| Security     | Helmet, CORS, HPP, express-rate-limit |
 
 ---
 
@@ -227,7 +227,6 @@ s4.9_Movie Database/
 - **Helmet** — HTTP security headers
 - **CORS** — Restricted to allowed client origin
 - **Rate Limiting** — Prevents brute-force and abuse
-- **Mongo Sanitize** — Protects against NoSQL injection
 - **HPP** — HTTP parameter pollution protection
 - **Input Validation** — express-validator on all user inputs
 - **Backend Proxy** — TMDB API key never exposed to the client
