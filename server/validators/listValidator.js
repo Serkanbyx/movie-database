@@ -11,8 +11,7 @@ const addToListValidator = [
     .withMessage('Movie title is required')
     .trim()
     .isLength({ max: 200 })
-    .withMessage('Movie title must be at most 200 characters')
-    .escape(),
+    .withMessage('Movie title must be at most 200 characters'),
   body('posterPath').optional().trim(),
   body('mediaType')
     .notEmpty()

@@ -61,7 +61,7 @@ const login = async (req, res, next) => {
 };
 
 const getMe = async (req, res) => {
-  res.status(200).json({ success: true, data: req.user });
+  res.status(200).json({ success: true, data: { user: req.user } });
 };
 
 const updateProfile = async (req, res, next) => {
@@ -74,7 +74,7 @@ const updateProfile = async (req, res, next) => {
       { new: true, runValidators: true }
     );
 
-    res.status(200).json({ success: true, data: user });
+    res.status(200).json({ success: true, data: { user } });
   } catch (err) {
     next(err);
   }

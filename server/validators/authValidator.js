@@ -6,8 +6,7 @@ const registerValidator = [
     .withMessage('Username is required')
     .trim()
     .isLength({ min: 2, max: 30 })
-    .withMessage('Username must be between 2 and 30 characters')
-    .escape(),
+    .withMessage('Username must be between 2 and 30 characters'),
   body('email')
     .notEmpty()
     .withMessage('Email is required')
@@ -38,8 +37,7 @@ const updateProfileValidator = [
     .optional()
     .trim()
     .isLength({ min: 2, max: 30 })
-    .withMessage('Username must be between 2 and 30 characters')
-    .escape(),
+    .withMessage('Username must be between 2 and 30 characters'),
   body('avatar')
     .optional()
     .trim()

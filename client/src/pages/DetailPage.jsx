@@ -19,7 +19,6 @@ const DetailPage = () => {
   const { isAuthenticated } = useAuth();
 
   const [movie, setMovie] = useState(null);
-  const [credits, setCredits] = useState(null);
   const [listStatus, setListStatus] = useState({ isFavorite: false, isWatchlist: false });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,7 +35,6 @@ const DetailPage = () => {
       try {
         const requests = [
           tmdbService.getMovieDetails(mediaType, id),
-          tmdbService.getMovieCredits(mediaType, id),
         ];
 
         if (isAuthenticated) {
@@ -45,10 +43,9 @@ const DetailPage = () => {
 
         const results = await Promise.all(requests);
         setMovie(results[0].data);
-        setCredits(results[1].data);
 
-        if (results[2]) {
-          setListStatus(results[2].data);
+        if (results[1]) {
+          setListStatus(results[1].data);
         }
       } catch (err) {
         if (err.response?.status === 404) {
@@ -134,7 +131,7 @@ const DetailPage = () => {
   const year = getYear(releaseDate);
   const backdropUrl = getImageUrl(movie.backdrop_path, BACKDROP_SIZES.large);
   const posterUrl = getImageUrl(movie.poster_path, POSTER_SIZES.large);
-  const cast = credits?.cast?.slice(0, 15) || [];
+  const cast = movie?.credits?.cast?.slice(0, 15) || [];
   const similarItems = movie.similar?.results?.slice(0, 12) || [];
 
   return (
