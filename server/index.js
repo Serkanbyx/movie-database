@@ -23,7 +23,13 @@ const startServer = async () => {
 
   app.disable('x-powered-by');
   app.use(helmet({ contentSecurityPolicy: false }));
-  app.use(cors({ origin: CLIENT_URL, credentials: true }));
+  const allowedOrigins = CLIENT_URL.split(',').map((url) => url.trim());
+  app.use(
+    cors({
+      origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
+      credentials: true,
+    })
+  );
   app.use(express.json({ limit: '10kb' }));
   app.use(express.urlencoded({ extended: true, limit: '10kb' }));
   app.use(hpp());

@@ -20,8 +20,11 @@ if (env.NODE_ENV === 'production' && env.JWT_SECRET.length < 32) {
   throw new Error('JWT_SECRET must be at least 32 characters in production.');
 }
 
-if (!env.TMDB_API_KEY) {
-  throw new Error('TMDB_API_KEY is required. Please set it in your .env file.');
+if (!env.TMDB_API_KEY || env.TMDB_API_KEY.startsWith('your_')) {
+  throw new Error(
+    'TMDB_API_KEY is required. Replace the placeholder with your actual API key.\n' +
+    'Get one at: https://www.themoviedb.org/settings/api'
+  );
 }
 
 module.exports = env;

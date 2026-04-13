@@ -7,7 +7,7 @@ const rateLimitResponse = {
 
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 500,
   message: rateLimitResponse,
   standardHeaders: true,
   legacyHeaders: false,
@@ -15,7 +15,7 @@ const globalLimiter = rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 15,
   message: rateLimitResponse,
   standardHeaders: true,
   legacyHeaders: false,
@@ -23,7 +23,7 @@ const authLimiter = rateLimit({
 
 const tmdbLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 30,
+  max: 60,
   message: rateLimitResponse,
   standardHeaders: true,
   legacyHeaders: false,

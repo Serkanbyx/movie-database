@@ -26,7 +26,10 @@ const MovieCard = ({ movie, mediaType }) => {
   return (
     <div
       onClick={handleClick}
-      className="group cursor-pointer overflow-hidden rounded-xl bg-surface shadow-md transition-all duration-300 hover:scale-[1.03] hover:shadow-xl dark:bg-surface-dark"
+      onKeyDown={(e) => e.key === 'Enter' && handleClick()}
+      role="link"
+      tabIndex={0}
+      className="group cursor-pointer overflow-hidden rounded-xl bg-surface shadow-md transition-all duration-300 hover:scale-[1.03] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none dark:bg-surface-dark"
     >
       {/* Poster */}
       <div className="relative aspect-2/3 w-full overflow-hidden">
