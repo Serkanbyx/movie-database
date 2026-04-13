@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const User = require('../models/User');
 const MovieItem = require('../models/MovieItem');
 const generateToken = require('../utils/generateToken');

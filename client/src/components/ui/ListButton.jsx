@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../../hooks/useAuth';
 import * as listService from '../../services/listService';
 import { LIST_TYPES } from '../../utils/constants';
+import { getMediaTitle } from '../../utils/helpers';
 import Spinner from './Spinner';
 
 const ListButton = ({ movieId, movieData, mediaType, listType, isActive, onToggle }) => {
@@ -29,7 +30,7 @@ const ListButton = ({ movieId, movieData, mediaType, listType, isActive, onToggl
       } else {
         await listService.addToList({
           movieId,
-          movieTitle: movieData?.title || movieData?.name,
+          movieTitle: getMediaTitle(movieData),
           posterPath: movieData?.poster_path,
           mediaType,
           listType,

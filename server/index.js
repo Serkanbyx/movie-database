@@ -22,7 +22,19 @@ const startServer = async () => {
   await connectDB();
 
   app.disable('x-powered-by');
-  app.use(helmet({ contentSecurityPolicy: false }));
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          imgSrc: ["'self'", "data:", "https://image.tmdb.org"],
+          connectSrc: ["'self'"],
+        },
+      },
+    })
+  );
   const allowedOrigins = CLIENT_URL.split(',').map((url) => url.trim());
   app.use(
     cors({

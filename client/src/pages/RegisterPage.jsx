@@ -8,6 +8,8 @@ import {
   HiOutlineEnvelope,
   HiOutlineLockClosed,
   HiOutlineUser,
+  HiOutlineEye,
+  HiOutlineEyeSlash,
 } from 'react-icons/hi2';
 
 const RegisterPage = () => {
@@ -19,6 +21,10 @@ const RegisterPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPasswords, setShowPasswords] = useState({
+    password: false,
+    confirmPassword: false,
+  });
 
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -95,8 +101,8 @@ const RegisterPage = () => {
     }
   };
 
-  const inputClassName = (fieldName) =>
-    `w-full rounded-lg border bg-background-dark py-2.5 pr-4 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
+  const inputClassName = (fieldName, hasToggle = false) =>
+    `w-full rounded-lg border bg-background-dark py-2.5 ${hasToggle ? 'pr-10' : 'pr-4'} pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
       errors[fieldName]
         ? 'border-danger'
         : 'border-border-dark hover:border-text-muted-dark'
@@ -138,6 +144,7 @@ const RegisterPage = () => {
                   value={formData.username}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  autoComplete="username"
                   className={inputClassName('username')}
                 />
               </div>
@@ -164,6 +171,7 @@ const RegisterPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  autoComplete="email"
                   className={inputClassName('email')}
                 />
               </div>
@@ -185,13 +193,26 @@ const RegisterPage = () => {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPasswords.password ? 'text' : 'password'}
                   placeholder="Create a password"
                   value={formData.password}
                   onChange={handleChange}
                   disabled={isSubmitting}
-                  className={inputClassName('password')}
+                  autoComplete="new-password"
+                  className={inputClassName('password', true)}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPasswords((prev) => ({ ...prev, password: !prev.password }))}
+                  className="absolute top-1/2 right-3 -translate-y-1/2 text-text-muted-dark transition-colors hover:text-text-dark"
+                  aria-label={showPasswords.password ? 'Hide password' : 'Show password'}
+                >
+                  {showPasswords.password ? (
+                    <HiOutlineEyeSlash className="h-5 w-5" />
+                  ) : (
+                    <HiOutlineEye className="h-5 w-5" />
+                  )}
+                </button>
               </div>
               {errors.password && (
                 <p className="mt-1 text-sm text-danger">{errors.password}</p>
@@ -211,13 +232,26 @@ const RegisterPage = () => {
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
+                  type={showPasswords.confirmPassword ? 'text' : 'password'}
                   placeholder="Confirm your password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   disabled={isSubmitting}
-                  className={inputClassName('confirmPassword')}
+                  autoComplete="new-password"
+                  className={inputClassName('confirmPassword', true)}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPasswords((prev) => ({ ...prev, confirmPassword: !prev.confirmPassword }))}
+                  className="absolute top-1/2 right-3 -translate-y-1/2 text-text-muted-dark transition-colors hover:text-text-dark"
+                  aria-label={showPasswords.confirmPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPasswords.confirmPassword ? (
+                    <HiOutlineEyeSlash className="h-5 w-5" />
+                  ) : (
+                    <HiOutlineEye className="h-5 w-5" />
+                  )}
+                </button>
               </div>
               {errors.confirmPassword && (
                 <p className="mt-1 text-sm text-danger">

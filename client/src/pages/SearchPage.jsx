@@ -15,7 +15,7 @@ const SearchPage = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(parseInt(searchParams.get('page'), 10) || 1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
@@ -46,7 +46,9 @@ const SearchPage = () => {
 
       setLoading(true);
       setError(null);
-      setSearchParams({ query: debouncedQuery }, { replace: true });
+      const params = { query: debouncedQuery };
+      if (page > 1) params.page = page.toString();
+      setSearchParams(params, { replace: true });
 
       try {
         const response = await searchMovies(debouncedQuery, page);

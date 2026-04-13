@@ -4,13 +4,19 @@ import { useAuth } from '../hooks/useAuth';
 import usePageTitle from '../hooks/usePageTitle';
 import toast from 'react-hot-toast';
 import Spinner from '../components/ui/Spinner';
-import { HiOutlineEnvelope, HiOutlineLockClosed } from 'react-icons/hi2';
+import {
+  HiOutlineEnvelope,
+  HiOutlineLockClosed,
+  HiOutlineEye,
+  HiOutlineEyeSlash,
+} from 'react-icons/hi2';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [authError, setAuthError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -111,6 +117,7 @@ const LoginPage = () => {
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
+                  autoComplete="email"
                   className={`w-full rounded-lg border bg-background-dark py-2.5 pr-4 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.email
                       ? 'border-danger'
@@ -136,17 +143,30 @@ const LoginPage = () => {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
                   disabled={isSubmitting}
-                  className={`w-full rounded-lg border bg-background-dark py-2.5 pr-4 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
+                  autoComplete="current-password"
+                  className={`w-full rounded-lg border bg-background-dark py-2.5 pr-10 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                     errors.password
                       ? 'border-danger'
                       : 'border-border-dark hover:border-text-muted-dark'
                   }`}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute top-1/2 right-3 -translate-y-1/2 text-text-muted-dark transition-colors hover:text-text-dark"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? (
+                    <HiOutlineEyeSlash className="h-5 w-5" />
+                  ) : (
+                    <HiOutlineEye className="h-5 w-5" />
+                  )}
+                </button>
               </div>
               {errors.password && (
                 <p className="mt-1 text-sm text-danger">{errors.password}</p>

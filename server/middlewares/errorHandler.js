@@ -11,7 +11,10 @@ const errorHandler = (err, req, res, next) => {
 
   if (err.code === 11000) {
     statusCode = 400;
-    message = 'Duplicate field value entered';
+    const field = Object.keys(err.keyPattern || {})[0];
+    message = field
+      ? `${field.charAt(0).toUpperCase() + field.slice(1)} is already taken`
+      : 'Duplicate field value entered';
   }
 
   if (err.name === 'ValidationError') {

@@ -364,6 +364,7 @@ const ProfilePage = () => {
                   onChange={handleProfileChange}
                   disabled={profileSubmitting}
                   maxLength={30}
+                  autoComplete="username"
                   className={`w-full rounded-lg border bg-background-dark py-2.5 pr-4 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                     profileErrors.username
                       ? 'border-danger'
@@ -446,10 +447,11 @@ const ProfilePage = () => {
                 id="currentPassword"
                 name="currentPassword"
                 type={showPasswords.current ? 'text' : 'password'}
-                placeholder="Enter current password"
-                value={passwordForm.currentPassword}
-                onChange={handlePasswordChange}
-                disabled={passwordSubmitting}
+                  placeholder="Enter current password"
+                  value={passwordForm.currentPassword}
+                  onChange={handlePasswordChange}
+                  disabled={passwordSubmitting}
+                  autoComplete="current-password"
                 className={`w-full rounded-lg border bg-background-dark py-2.5 pr-10 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                   passwordErrors.currentPassword
                     ? 'border-danger'
@@ -492,10 +494,11 @@ const ProfilePage = () => {
                 id="newPassword"
                 name="newPassword"
                 type={showPasswords.new ? 'text' : 'password'}
-                placeholder="Enter new password"
-                value={passwordForm.newPassword}
-                onChange={handlePasswordChange}
-                disabled={passwordSubmitting}
+                  placeholder="Enter new password"
+                  value={passwordForm.newPassword}
+                  onChange={handlePasswordChange}
+                  disabled={passwordSubmitting}
+                  autoComplete="new-password"
                 className={`w-full rounded-lg border bg-background-dark py-2.5 pr-10 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                   passwordErrors.newPassword
                     ? 'border-danger'
@@ -538,10 +541,11 @@ const ProfilePage = () => {
                 id="confirmNewPassword"
                 name="confirmNewPassword"
                 type={showPasswords.confirm ? 'text' : 'password'}
-                placeholder="Confirm new password"
-                value={passwordForm.confirmNewPassword}
-                onChange={handlePasswordChange}
-                disabled={passwordSubmitting}
+                  placeholder="Confirm new password"
+                  value={passwordForm.confirmNewPassword}
+                  onChange={handlePasswordChange}
+                  disabled={passwordSubmitting}
+                  autoComplete="new-password"
                 className={`w-full rounded-lg border bg-background-dark py-2.5 pr-10 pl-10 text-text-dark placeholder-text-muted-dark transition-colors focus:outline-none focus:ring-2 focus:ring-primary ${
                   passwordErrors.confirmNewPassword
                     ? 'border-danger'
