@@ -31,6 +31,28 @@ const Footer = () => {
             &copy; {currentYear} MovieDB. All rights reserved.
           </p>
         </div>
+
+        {/* Sign */}
+        <div className="mt-6 border-t border-border-dark pt-4 text-center text-xs text-gray-500">
+          Created by{' '}
+          <a
+            href="https://serkanbayraktar.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary transition-colors hover:text-primary-hover"
+          >
+            Serkanby
+          </a>
+          {' | '}
+          <a
+            href="https://github.com/Serkanbyx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary transition-colors hover:text-primary-hover"
+          >
+            Github
+          </a>
+        </div>
       </div>
     </footer>
   );
