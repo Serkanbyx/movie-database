@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import usePageTitle from '../hooks/usePageTitle';
 import toast from 'react-hot-toast';
 import Spinner from '../components/ui/Spinner';
 import { HiOutlineEnvelope, HiOutlineLockClosed } from 'react-icons/hi2';
@@ -8,12 +9,15 @@ import { HiOutlineEnvelope, HiOutlineLockClosed } from 'react-icons/hi2';
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
+  const [authError, setAuthError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const redirectTo = location.state?.from?.pathname || '/';
+
+  usePageTitle('Sign In');
 
   const validate = () => {
     const newErrors = {};
@@ -39,6 +43,7 @@ const LoginPage = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
+    if (authError) setAuthError('');
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -49,6 +54,7 @@ const LoginPage = () => {
     if (!validate()) return;
 
     setIsSubmitting(true);
+    setAuthError('');
     try {
       await login(formData.email, formData.password);
       toast.success('Welcome back!');
@@ -56,6 +62,7 @@ const LoginPage = () => {
     } catch (error) {
       const message =
         error.response?.data?.message || 'Login failed. Please try again.';
+      setAuthError(message);
       toast.error(message);
     } finally {
       setIsSubmitting(false);
@@ -79,6 +86,13 @@ const LoginPage = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+            {/* Auth Error */}
+            {authError && (
+              <div className="rounded-lg border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">
+                {authError}
+              </div>
+            )}
+
             {/* Email */}
             <div>
               <label

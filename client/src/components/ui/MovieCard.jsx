@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getImageUrl, getMediaTitle, getYear, getMediaReleaseDate, formatRating, truncateText } from '../../utils/helpers';
-import { POSTER_SIZES, MEDIA_TYPES } from '../../utils/constants';
+import { POSTER_SIZES, MEDIA_TYPES, DEFAULT_POSTER } from '../../utils/constants';
 
 const getRatingColor = (rating) => {
   if (rating >= 7) return 'bg-green-600';
@@ -10,11 +11,13 @@ const getRatingColor = (rating) => {
 
 const MovieCard = ({ movie, mediaType }) => {
   const navigate = useNavigate();
+  const [imgError, setImgError] = useState(false);
   const resolvedMediaType = movie.media_type || mediaType || MEDIA_TYPES.MOVIE;
   const title = getMediaTitle(movie);
   const year = getYear(getMediaReleaseDate(movie));
   const rating = formatRating(movie.vote_average);
   const posterUrl = getImageUrl(movie.poster_path, POSTER_SIZES.medium);
+  const displayPoster = imgError ? DEFAULT_POSTER : posterUrl;
 
   const handleClick = () => {
     navigate(`/${resolvedMediaType}/${movie.id}`);
@@ -28,9 +31,10 @@ const MovieCard = ({ movie, mediaType }) => {
       {/* Poster */}
       <div className="relative aspect-2/3 w-full overflow-hidden">
         <img
-          src={posterUrl}
+          src={displayPoster}
           alt={title}
           loading="lazy"
+          onError={() => setImgError(true)}
           className="h-full w-full object-cover transition-all duration-300 group-hover:brightness-110"
         />
 

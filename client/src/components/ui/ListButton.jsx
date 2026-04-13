@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaHeart, FaRegHeart, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../hooks/useAuth';
@@ -11,13 +11,13 @@ const ListButton = ({ movieId, movieData, mediaType, listType, isActive, onToggl
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isFavorite = listType === LIST_TYPES.FAVORITE;
 
   const handleClick = async () => {
     if (!isAuthenticated) {
-      toast.error('Please login to use this feature');
-      navigate('/login');
+      navigate('/login', { state: { from: location } });
       return;
     }
 

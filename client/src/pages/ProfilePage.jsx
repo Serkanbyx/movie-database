@@ -15,6 +15,7 @@ import {
   HiOutlineEyeSlash,
 } from 'react-icons/hi2';
 import { useAuth } from '../hooks/useAuth';
+import usePageTitle from '../hooks/usePageTitle';
 import * as authService from '../services/authService';
 import * as listService from '../services/listService';
 import { LIST_TYPES } from '../utils/constants';
@@ -24,6 +25,8 @@ import ConfirmModal from '../components/ui/ConfirmModal';
 const ProfilePage = () => {
   const { user, logout, updateUser, updateToken } = useAuth();
   const navigate = useNavigate();
+
+  usePageTitle('Profile');
 
   // Stats
   const [stats, setStats] = useState({ favorites: 0, watchlist: 0 });

@@ -4,6 +4,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import * as tmdbService from '../services/tmdbService';
 import * as listService from '../services/listService';
 import { useAuth } from '../hooks/useAuth';
+import usePageTitle from '../hooks/usePageTitle';
 import { getImageUrl, formatDate, getYear, getMediaTitle, getMediaReleaseDate } from '../utils/helpers';
 import { POSTER_SIZES, BACKDROP_SIZES, MEDIA_TYPES } from '../utils/constants';
 import StarRating from '../components/ui/StarRating';
@@ -24,6 +25,9 @@ const DetailPage = () => {
   const [error, setError] = useState(null);
 
   const isValidMediaType = mediaType === MEDIA_TYPES.MOVIE || mediaType === MEDIA_TYPES.TV;
+
+  const pageTitle = movie ? getMediaTitle(movie) : loading ? 'Loading...' : 'Not Found';
+  usePageTitle(pageTitle);
 
   useEffect(() => {
     if (!isValidMediaType) return;
@@ -116,12 +120,20 @@ const DetailPage = () => {
         <p className="text-text-muted dark:text-text-muted-dark">
           We couldn&apos;t load the details. Please try again.
         </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="rounded-lg bg-primary px-6 py-2 text-white transition-colors hover:bg-primary-hover"
-        >
-          Retry
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => window.location.reload()}
+            className="rounded-lg bg-primary px-6 py-2 text-white transition-colors hover:bg-primary-hover"
+          >
+            Retry
+          </button>
+          <button
+            onClick={() => navigate('/')}
+            className="rounded-lg border border-border px-6 py-2 text-text transition-colors hover:bg-white/10 dark:border-border-dark dark:text-text-dark"
+          >
+            Back to Home
+          </button>
+        </div>
       </div>
     );
   }
@@ -135,7 +147,7 @@ const DetailPage = () => {
   const similarItems = movie.similar?.results?.slice(0, 12) || [];
 
   return (
-    <div className="min-h-screen">
+    <div>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Backdrop Image */}

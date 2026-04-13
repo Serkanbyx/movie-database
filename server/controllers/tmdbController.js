@@ -169,6 +169,12 @@ const getTopRated = async (req, res, next) => {
 const isPositiveInteger = (value) => /^\d+$/.test(value) && Number(value) > 0;
 
 const createTmdbError = (err) => {
+  if (err.response?.status === 404) {
+    const error = new Error('The requested content was not found');
+    error.statusCode = 404;
+    return error;
+  }
+
   const error = new Error('Failed to fetch data from TMDB');
   error.statusCode = 502;
   return error;

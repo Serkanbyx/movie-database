@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getTrending, getPopular, getTopRated } from '../services/tmdbService';
 import { getImageUrl, getMediaTitle, truncateText } from '../utils/helpers';
-import { BACKDROP_SIZES } from '../utils/constants';
+import { BACKDROP_SIZES, MEDIA_TYPES } from '../utils/constants';
+import usePageTitle from '../hooks/usePageTitle';
 import MovieCard from '../components/ui/MovieCard';
 import MovieCardSkeleton from '../components/ui/MovieCardSkeleton';
 import Pagination from '../components/ui/Pagination';
@@ -18,6 +20,7 @@ const TIME_WINDOWS = [
 ];
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -61,6 +64,8 @@ const HomePage = () => {
     fetchMovies();
   }, [fetchMovies]);
 
+  usePageTitle('Discover Movies & TV Shows');
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
@@ -83,15 +88,29 @@ const HomePage = () => {
 
   const heroMovie = movies[0];
 
+  const heroMediaType = heroMovie?.media_type || MEDIA_TYPES.MOVIE;
+
+  const handleHeroClick = () => {
+    if (heroMovie) {
+      navigate(`/${heroMediaType}/${heroMovie.id}`);
+    }
+  };
+
   return (
-    <div className="min-h-screen">
+    <div>
       {/* Hero Banner */}
       {heroMovie && !loading && (
-        <div className="relative h-[400px] w-full overflow-hidden sm:h-[450px] md:h-[500px]">
+        <div
+          onClick={handleHeroClick}
+          role="link"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && handleHeroClick()}
+          className="relative h-[400px] w-full cursor-pointer overflow-hidden sm:h-[450px] md:h-[500px]"
+        >
           <img
             src={getImageUrl(heroMovie.backdrop_path, BACKDROP_SIZES.large)}
             alt={getMediaTitle(heroMovie)}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
           />
           <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent dark:from-background-dark dark:via-background-dark/60" />
           <div className="absolute bottom-0 left-0 w-full px-4 pb-8 sm:px-6 md:px-8">

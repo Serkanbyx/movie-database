@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { TbMovie } from 'react-icons/tb';
+import usePageTitle from '../hooks/usePageTitle';
 
 const NotFoundPage = () => {
+  usePageTitle('Page Not Found');
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
       {/* Film Reel Icon */}

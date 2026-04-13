@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import usePageTitle from '../hooks/usePageTitle';
 import toast from 'react-hot-toast';
 import Spinner from '../components/ui/Spinner';
 import {
@@ -21,6 +22,8 @@ const RegisterPage = () => {
 
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  usePageTitle('Create Account');
 
   const validate = () => {
     const newErrors = {};

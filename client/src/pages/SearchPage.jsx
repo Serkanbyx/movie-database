@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { searchMovies } from '../services/tmdbService';
 import useDebounce from '../hooks/useDebounce';
+import usePageTitle from '../hooks/usePageTitle';
 import MovieCard from '../components/ui/MovieCard';
 import MovieCardSkeleton from '../components/ui/MovieCardSkeleton';
 import Pagination from '../components/ui/Pagination';
@@ -21,6 +22,8 @@ const SearchPage = () => {
 
   const inputRef = useRef(null);
   const debouncedQuery = useDebounce(searchQuery, 500);
+
+  usePageTitle(debouncedQuery ? `Search: ${debouncedQuery}` : 'Search');
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -81,7 +84,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="mx-auto min-h-screen max-w-7xl px-4 py-8 sm:px-6 md:px-8">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-8">
       {/* Search Header */}
       <div className="mx-auto max-w-2xl">
         <h1 className="mb-6 text-center text-2xl font-bold text-text sm:text-3xl md:text-4xl dark:text-text-dark">

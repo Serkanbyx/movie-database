@@ -3,6 +3,7 @@ import { FaBookmark, FaTrash } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import * as listService from '../services/listService';
 import { LIST_TYPES } from '../utils/constants';
+import usePageTitle from '../hooks/usePageTitle';
 import MovieCard from '../components/ui/MovieCard';
 import MovieCardSkeleton from '../components/ui/MovieCardSkeleton';
 import Pagination from '../components/ui/Pagination';
@@ -19,6 +20,8 @@ const WatchlistPage = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  usePageTitle('My Watchlist');
 
   const fetchWatchlist = useCallback(async (pageNum) => {
     setLoading(true);
@@ -115,7 +118,7 @@ const WatchlistPage = () => {
         </h1>
         {total > 0 && (
           <span className="rounded-full bg-primary/20 px-3 py-0.5 text-sm font-medium text-primary">
-            {total} {total === 1 ? 'movie' : 'movies'}
+            {total} {total === 1 ? 'title' : 'titles'}
           </span>
         )}
       </div>
