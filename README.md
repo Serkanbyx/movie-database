@@ -184,6 +184,8 @@ User-specific data (favorites, watchlist, profile) is stored in MongoDB and acce
 
 ## API Endpoints
 
+> Interactive API documentation is available at `/api-docs` (Swagger UI) when the server is running.
+
 ### Auth
 
 | Method | Endpoint                   | Auth | Description          |
@@ -437,11 +439,11 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Developer
 
-**Serkan Bayraktar**
+**Serkanby**
 
-- 🌐 [serkanbayraktar.com](https://serkanbayraktar.com/)
-- 🐙 [@Serkanbyx](https://github.com/Serkanbyx)
-- 📧 serkanbyx1@gmail.com
+- Website: [serkanbayraktar.com](https://serkanbayraktar.com/)
+- GitHub: [@Serkanbyx](https://github.com/Serkanbyx)
+- Email: [serkanbyx1@gmail.com](mailto:serkanbyx1@gmail.com)
 
 ---
 
