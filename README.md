@@ -1,9 +1,33 @@
-# 🎬 Movie Database
+<div align="center">
+  <p>
+    <strong>🎬 Movie Database</strong>
+  </p>
 
-A full-stack movie database application built with **React**, **Express.js**, and **MongoDB**, powered by the **TMDB API**. Browse trending, popular, and top-rated movies & TV shows, manage your personal favorites and watchlist, and explore detailed cast & crew information — all wrapped in a modern, responsive UI.
+  <h1>Movie Database</h1>
 
-[![Created by Serkanby](https://img.shields.io/badge/Created%20by-Serkanby-blue?style=flat-square)](https://serkanbayraktar.com/)
-[![GitHub](https://img.shields.io/badge/GitHub-Serkanbyx-181717?style=flat-square&logo=github)](https://github.com/Serkanbyx)
+  <p><em>A full-stack movie & TV database with JWT authentication, personal favorites and watchlist, debounced search, and a secure TMDB backend proxy — built on a modern React + Express + MongoDB architecture.</em></p>
+
+  <p>
+    <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License" />
+    <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen?style=flat-square" alt="Node.js version" />
+    <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React 18" />
+    <img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express&logoColor=white" alt="Express 4" />
+    <img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white" alt="MongoDB Atlas" />
+    <img src="https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite 8" />
+    <img src="https://img.shields.io/badge/Tailwind-v4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4" />
+    <img src="https://img.shields.io/badge/API-Render-46E3B7?style=flat-square&logo=render&logoColor=white" alt="API on Render" />
+    <img src="https://img.shields.io/badge/Web-Netlify-00C7B7?style=flat-square&logo=netlify&logoColor=white" alt="Web on Netlify" />
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs welcome" />
+  </p>
+
+  <p>
+    <a href="https://movie-databasee.netlify.app/">Live Demo</a> •
+    <a href="#features">Features</a> •
+    <a href="#installation">Quick Start</a> •
+    <a href="#api-endpoints">API Docs</a> •
+    <a href="#screenshots">Screenshots</a>
+  </p>
+</div>
 
 ---
 
@@ -33,7 +57,49 @@ A full-stack movie database application built with **React**, **Express.js**, an
 
 ## Screenshots
 
-> _Screenshots will be added here._
+Screenshots are best experienced live — explore the running app on the [live deployment](https://movie-databasee.netlify.app/).
+
+> Image assets can be added under `assets/screenshots/` (e.g. `landing.png`, `detail.png`, `favorites.png`) and embedded here as a grid once captured.
+
+---
+
+## Architecture
+
+A high-level visual map of the system. Both diagrams render natively on GitHub thanks to Mermaid support.
+
+### Domain Model
+
+How the core collections relate to each other and how movie data is sourced.
+
+```mermaid
+graph LR
+  User(("User"))
+  MovieItem(["MovieItem"])
+  TMDB[("TMDB API")]
+
+  User -- "registers / logs in (JWT)" --> User
+  User -- "adds to favorites" --> MovieItem
+  User -- "adds to watchlist" --> MovieItem
+  MovieItem -- "references title by movieId" --> TMDB
+```
+
+### Request Lifecycle
+
+How a single browser action travels through the stack. All TMDB traffic is proxied so the API key never reaches the client.
+
+```mermaid
+flowchart LR
+  Browser["React 18 SPA<br/>(Vite + Tailwind)"]
+  API["Express 4 API<br/>(REST + JWT)"]
+  DB[("MongoDB<br/>Mongoose 9")]
+  TMDB[("TMDB API")]
+
+  Browser -- "Axios + JWT (Bearer)" --> API
+  API --> DB
+  API -- "proxy request (api_key)" --> TMDB
+  TMDB -. "movie/tv JSON" .-> API
+  API -. "sanitized JSON" .-> Browser
+```
 
 ---
 
@@ -57,6 +123,7 @@ A full-stack movie database application built with **React**, **Express.js**, an
 - **JWT (jsonwebtoken)**: Stateless authentication with configurable token expiry
 - **bcryptjs 3**: Secure password hashing with automatic salt generation
 - **Axios**: Server-side HTTP client for proxying TMDB API requests
+- **Swagger (swagger-jsdoc + swagger-ui-express)**: Interactive API documentation at `/api-docs`
 - **Morgan**: HTTP request logger for development debugging
 
 ---
@@ -81,8 +148,8 @@ A full-stack movie database application built with **React**, **Express.js**, an
 **1. Clone the repository:**
 
 ```bash
-git clone https://github.com/Serkanbyx/s4.9_Movie-Database.git
-cd s4.9_Movie-Database
+git clone https://github.com/serkanbyx/movie-database.git
+cd movie-database
 ```
 
 **2. Set up environment variables:**
@@ -104,7 +171,7 @@ TMDB_API_KEY=your_tmdb_api_key_here
 TMDB_BASE_URL=https://api.themoviedb.org/3
 ```
 
-**client/.env.production** *(only needed for production builds)*
+**client/.env.production** _(only needed for production builds)_
 
 ```env
 VITE_API_URL=https://your-api-url.onrender.com/api
@@ -188,40 +255,40 @@ User-specific data (favorites, watchlist, profile) is stored in MongoDB and acce
 
 ### Auth
 
-| Method | Endpoint                   | Auth | Description          |
-| ------ | -------------------------- | ---- | -------------------- |
-| POST   | `/api/auth/register`       | No   | Register a new user  |
-| POST   | `/api/auth/login`          | No   | Login and receive JWT |
-| GET    | `/api/auth/me`             | Yes  | Get current user     |
-| PUT    | `/api/auth/profile`        | Yes  | Update profile       |
-| PUT    | `/api/auth/change-password`| Yes  | Change password      |
-| DELETE | `/api/auth/account`        | Yes  | Delete account       |
+| Method | Endpoint                    | Auth | Description           |
+| ------ | --------------------------- | ---- | --------------------- |
+| POST   | `/api/auth/register`        | No   | Register a new user   |
+| POST   | `/api/auth/login`           | No   | Login and receive JWT |
+| GET    | `/api/auth/me`              | Yes  | Get current user      |
+| PUT    | `/api/auth/profile`         | Yes  | Update profile        |
+| PUT    | `/api/auth/change-password` | Yes  | Change password       |
+| DELETE | `/api/auth/account`         | Yes  | Delete account        |
 
 ### Lists (Favorites & Watchlist)
 
-| Method | Endpoint                          | Auth | Description          |
-| ------ | --------------------------------- | ---- | -------------------- |
-| GET    | `/api/list/status/:movieId`       | Yes  | Check list status    |
-| GET    | `/api/list/:listType`             | Yes  | Get list items       |
-| POST   | `/api/list`                       | Yes  | Add to list          |
-| DELETE | `/api/list/:listType/:movieId`    | Yes  | Remove from list     |
+| Method | Endpoint                       | Auth | Description       |
+| ------ | ------------------------------ | ---- | ----------------- |
+| GET    | `/api/list/status/:movieId`    | Yes  | Check list status |
+| GET    | `/api/list/:listType`          | Yes  | Get list items    |
+| POST   | `/api/list`                    | Yes  | Add to list       |
+| DELETE | `/api/list/:listType/:movieId` | Yes  | Remove from list  |
 
 ### Movies & TV (TMDB Proxy)
 
-| Method | Endpoint                                 | Auth | Description          |
-| ------ | ---------------------------------------- | ---- | -------------------- |
-| GET    | `/api/movies/trending`                   | No   | Trending movies & TV |
-| GET    | `/api/movies/search`                     | No   | Search movies & TV   |
-| GET    | `/api/movies/popular`                    | No   | Popular movies       |
-| GET    | `/api/movies/top-rated`                  | No   | Top rated movies     |
-| GET    | `/api/movies/:mediaType/:id`             | No   | Movie/TV details     |
-| GET    | `/api/movies/:mediaType/:id/credits`     | No   | Movie/TV credits     |
+| Method | Endpoint                             | Auth | Description          |
+| ------ | ------------------------------------ | ---- | -------------------- |
+| GET    | `/api/movies/trending`               | No   | Trending movies & TV |
+| GET    | `/api/movies/search`                 | No   | Search movies & TV   |
+| GET    | `/api/movies/popular`                | No   | Popular movies       |
+| GET    | `/api/movies/top-rated`              | No   | Top rated movies     |
+| GET    | `/api/movies/:mediaType/:id`         | No   | Movie/TV details     |
+| GET    | `/api/movies/:mediaType/:id/credits` | No   | Movie/TV credits     |
 
 ### Health
 
-| Method | Endpoint       | Auth | Description          |
-| ------ | -------------- | ---- | -------------------- |
-| GET    | `/api/health`  | No   | Server health check  |
+| Method | Endpoint      | Auth | Description         |
+| ------ | ------------- | ---- | ------------------- |
+| GET    | `/api/health` | No   | Server health check |
 
 > Auth endpoints require `Authorization: Bearer <token>` header.
 
@@ -229,105 +296,78 @@ User-specific data (favorites, watchlist, profile) is stored in MongoDB and acce
 
 ## Project Structure
 
+A clean monorepo layout with an explicit backend / frontend split. Each panel below is collapsible — expand the one you care about.
+
+<details open>
+<summary><b>Server</b> — Express 4 API</summary>
+
 ```
-s4.9_Movie Database/
-├── client/                          # React SPA (Vite)
-│   ├── src/
-│   │   ├── api/
-│   │   │   └── axios.js            # Axios instance & interceptors
-│   │   ├── components/
-│   │   │   ├── guards/
-│   │   │   │   ├── GuestOnlyRoute.jsx
-│   │   │   │   └── ProtectedRoute.jsx
-│   │   │   ├── layout/
-│   │   │   │   ├── Footer.jsx
-│   │   │   │   ├── MainLayout.jsx
-│   │   │   │   ├── Navbar.jsx
-│   │   │   │   └── ScrollToTop.jsx
-│   │   │   └── ui/
-│   │   │       ├── CastCard.jsx
-│   │   │       ├── ConfirmModal.jsx
-│   │   │       ├── DetailPageSkeleton.jsx
-│   │   │       ├── EmptyState.jsx
-│   │   │       ├── ListButton.jsx
-│   │   │       ├── MovieCard.jsx
-│   │   │       ├── MovieCardSkeleton.jsx
-│   │   │       ├── Pagination.jsx
-│   │   │       ├── Spinner.jsx
-│   │   │       └── StarRating.jsx
-│   │   ├── contexts/
-│   │   │   └── AuthContext.jsx      # Global auth state management
-│   │   ├── hooks/
-│   │   │   ├── useAuth.js           # Auth context consumer
-│   │   │   ├── useDebounce.js       # Debounce hook for search
-│   │   │   └── useLocalStorage.js   # localStorage sync hook
-│   │   ├── pages/
-│   │   │   ├── DetailPage.jsx
-│   │   │   ├── FavoritesPage.jsx
-│   │   │   ├── HomePage.jsx
-│   │   │   ├── LoginPage.jsx
-│   │   │   ├── NotFoundPage.jsx
-│   │   │   ├── PopularPage.jsx
-│   │   │   ├── ProfilePage.jsx
-│   │   │   ├── RegisterPage.jsx
-│   │   │   ├── SearchPage.jsx
-│   │   │   ├── TopRatedPage.jsx
-│   │   │   └── WatchlistPage.jsx
-│   │   ├── services/
-│   │   │   ├── authService.js       # Auth API calls
-│   │   │   ├── listService.js       # Favorites & watchlist API calls
-│   │   │   └── tmdbService.js       # Movie & TV API calls
-│   │   ├── utils/
-│   │   │   ├── constants.js         # App-wide constants
-│   │   │   └── helpers.js           # Utility functions
-│   │   ├── App.jsx                  # Root component & routing
-│   │   ├── main.jsx                 # Entry point
-│   │   └── index.css                # Global styles (Tailwind)
-│   ├── index.html
-│   ├── vite.config.js
-│   └── package.json
-│
-├── server/                          # Express REST API
-│   ├── config/
-│   │   ├── db.js                    # MongoDB connection
-│   │   └── env.js                   # Environment variable validation
-│   ├── controllers/
-│   │   ├── authController.js        # Auth route handlers
-│   │   ├── listController.js        # List route handlers
-│   │   └── tmdbController.js        # TMDB proxy handlers
-│   ├── middlewares/
-│   │   ├── auth.js                  # JWT protect middleware
-│   │   ├── errorHandler.js          # Global error handler
-│   │   ├── rateLimiter.js           # Rate limiting configs
-│   │   └── validate.js              # Request validation middleware
-│   ├── models/
-│   │   ├── MovieItem.js             # Movie list item schema
-│   │   └── User.js                  # User schema with password hashing
-│   ├── routes/
-│   │   ├── authRoutes.js            # Auth endpoints
-│   │   ├── listRoutes.js            # List endpoints
-│   │   └── tmdbRoutes.js            # TMDB proxy endpoints
-│   ├── utils/                       # Token generation, TMDB client
-│   ├── validators/
-│   │   ├── authValidator.js         # Auth input validation rules
-│   │   └── listValidator.js         # List input validation rules
-│   ├── index.js                     # Server entry point
-│   ├── package.json
-│   └── .env.example                 # Environment template
-│
-├── README.md
-└── .gitignore
+server/
+├── config/           # env validation, db connection, swagger spec
+├── controllers/      # auth, list, tmdb proxy route handlers
+├── middlewares/      # auth (JWT), errorHandler, rateLimiter, validate
+├── models/           # User (bcrypt hooks), MovieItem (compound indexes)
+├── routes/           # authRoutes, listRoutes, tmdbRoutes
+├── utils/            # generateToken, tmdbApi (axios client)
+├── validators/       # express-validator schemas per resource
+├── index.js          # Express app composition + bootstrap
+├── .env.example
+└── package.json
 ```
+
+</details>
+
+<details>
+<summary><b>Client</b> — React 18 + Vite SPA</summary>
+
+```
+client/
+├── src/
+│   ├── api/          # Axios instance + interceptors
+│   ├── components/   # guards/, layout/, ui/ (cards, skeletons, modals)
+│   ├── contexts/     # AuthContext (global auth state)
+│   ├── hooks/        # useAuth, useDebounce, useLocalStorage, usePageTitle
+│   ├── pages/        # Home, Search, Detail, Favorites, Watchlist, Profile…
+│   ├── services/     # authService, listService, tmdbService
+│   ├── utils/        # constants, helpers
+│   ├── App.jsx       # router + route guards
+│   ├── main.jsx      # entry point
+│   └── index.css     # global styles (Tailwind)
+├── index.html
+├── vite.config.js
+└── package.json
+```
+
+</details>
+
+<details>
+<summary><b>Repository root</b> — docs, governance & shared config</summary>
+
+```
+movie-database/
+├── client/           # → see Client panel above
+├── server/           # → see Server panel above
+├── .github/          # issue templates, PR template, governance docs
+│   ├── ISSUE_TEMPLATE/
+│   ├── CODE_OF_CONDUCT.md
+│   ├── CONTRIBUTING.md
+│   ├── SECURITY.md
+│   └── PULL_REQUEST_TEMPLATE.md
+├── LICENSE
+└── README.md
+```
+
+</details>
 
 ---
 
 ## Security
 
 - **JWT Authentication** — Stateless token-based authentication with configurable expiry and minimum 32-character secret enforcement in production
-- **Password Hashing** — bcryptjs with automatic salt generation for secure password storage
-- **Helmet** — Sets various HTTP security headers to protect against common attacks
-- **CORS** — Restricted to allowed client origin with credentials support
-- **Rate Limiting** — Three-tier rate limiting: global (100/15min), auth (10/15min), and TMDB (30/1min)
+- **Password Hashing** — bcryptjs with automatic salt generation (12 rounds) for secure password storage
+- **Helmet** — Sets various HTTP security headers, including a strict Content Security Policy
+- **CORS** — Restricted to allowed client origin(s) with credentials support
+- **Rate Limiting** — Three-tier rate limiting: global (500/15min), auth (15/15min), and TMDB (60/1min)
 - **HPP** — HTTP Parameter Pollution protection against query string attacks
 - **Input Validation** — express-validator on all user inputs with detailed field-level error responses
 - **Body Size Limit** — Request body limited to 10KB to prevent payload abuse
@@ -346,19 +386,18 @@ s4.9_Movie Database/
    - **Root Directory**: `server`
    - **Build Command**: `npm install`
    - **Start Command**: `npm start`
-
 4. Add environment variables:
 
-| Variable        | Value                                  |
-| --------------- | -------------------------------------- |
-| `PORT`          | `5000`                                 |
-| `MONGODB_URI`   | Your MongoDB Atlas connection string   |
-| `JWT_SECRET`    | A secure random string (min 32 chars)  |
-| `JWT_EXPIRES_IN`| `30d`                                  |
-| `NODE_ENV`      | `production`                           |
-| `CLIENT_URL`    | `https://movie-databasee.netlify.app`  |
-| `TMDB_API_KEY`  | Your TMDB API v3 key                   |
-| `TMDB_BASE_URL` | `https://api.themoviedb.org/3`         |
+| Variable         | Value                                 |
+| ---------------- | ------------------------------------- |
+| `PORT`           | `5000`                                |
+| `MONGODB_URI`    | Your MongoDB Atlas connection string  |
+| `JWT_SECRET`     | A secure random string (min 32 chars) |
+| `JWT_EXPIRES_IN` | `30d`                                 |
+| `NODE_ENV`       | `production`                          |
+| `CLIENT_URL`     | `https://movie-databasee.netlify.app` |
+| `TMDB_API_KEY`   | Your TMDB API v3 key                  |
+| `TMDB_BASE_URL`  | `https://api.themoviedb.org/3`        |
 
 ### Frontend (Netlify)
 
@@ -368,12 +407,11 @@ s4.9_Movie Database/
    - **Base Directory**: `client`
    - **Build Command**: `npm run build`
    - **Publish Directory**: `client/dist`
-
 4. Add environment variable:
 
-| Variable       | Value                                        |
-| -------------- | -------------------------------------------- |
-| `VITE_API_URL` | `https://your-api-url.onrender.com/api`      |
+| Variable       | Value                                   |
+| -------------- | --------------------------------------- |
+| `VITE_API_URL` | `https://your-api-url.onrender.com/api` |
 
 > The `public/_redirects` file handles SPA routing on Netlify by redirecting all paths to `index.html`.
 
@@ -398,6 +436,7 @@ s4.9_Movie Database/
 - ✅ Route guards (protected & guest-only)
 - ✅ Toast notifications
 - ✅ Backend proxy for TMDB API
+- ✅ Interactive Swagger API documentation
 
 ### Future Features
 
@@ -417,6 +456,8 @@ s4.9_Movie Database/
 3. **Commit** your changes: `git commit -m "feat: add amazing feature"`
 4. **Push** to the branch: `git push origin feat/amazing-feature`
 5. **Open** a Pull Request
+
+Please review our [Contributing Guidelines](.github/CONTRIBUTING.md) and [Code of Conduct](.github/CODE_OF_CONDUCT.md) before submitting.
 
 ### Commit Message Format
 
@@ -460,7 +501,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-- 🐛 [Open an Issue](https://github.com/Serkanbyx/s4.9_Movie-Database/issues)
+- 🐛 [Open an Issue](https://github.com/serkanbyx/movie-database/issues)
 - 📧 serkanbyx1@gmail.com
 - 🌐 [serkanbayraktar.com](https://serkanbayraktar.com/)
 

@@ -43,12 +43,16 @@ const updateProfileValidator = [
     .trim()
     .custom((value) => {
       if (value === '') return true;
+      let parsed;
       try {
-        new URL(value);
-        return true;
+        parsed = new URL(value);
       } catch {
         throw new Error('Avatar must be a valid URL');
       }
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        throw new Error('Avatar URL must use http or https');
+      }
+      return true;
     }),
 ];
 

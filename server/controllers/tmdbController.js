@@ -3,10 +3,22 @@ const tmdbApi = require('../utils/tmdbApi');
 const VALID_MEDIA_TYPES = ['movie', 'tv'];
 const VALID_TIME_WINDOWS = ['day', 'week'];
 
+const SEARCH_QUERY_MAX_LENGTH = 100;
+
 const clampPage = (raw) => {
   const page = parseInt(raw, 10) || 1;
   return Math.max(1, Math.min(page, 500));
 };
+
+const buildListResponse = (data, results = data.results) => ({
+  success: true,
+  data: {
+    results,
+    page: data.page,
+    total_pages: data.total_pages,
+    total_results: data.total_results,
+  },
+});
 
 const getTrending = async (req, res, next) => {
   try {
@@ -19,15 +31,7 @@ const getTrending = async (req, res, next) => {
       params: { page },
     });
 
-    res.status(200).json({
-      success: true,
-      data: {
-        results: data.results,
-        page: data.page,
-        total_pages: data.total_pages,
-        total_results: data.total_results,
-      },
-    });
+    res.status(200).json(buildListResponse(data));
   } catch (err) {
     next(createTmdbError(err));
   }
@@ -35,10 +39,18 @@ const getTrending = async (req, res, next) => {
 
 const searchMovies = async (req, res, next) => {
   try {
-    const { query } = req.query;
+    const query = req.query.query?.trim();
 
-    if (!query || !query.trim()) {
+    if (!query) {
       const error = new Error('Search query is required');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    if (query.length > SEARCH_QUERY_MAX_LENGTH) {
+      const error = new Error(
+        `Search query must be at most ${SEARCH_QUERY_MAX_LENGTH} characters`,
+      );
       error.statusCode = 400;
       throw error;
     }
@@ -53,15 +65,7 @@ const searchMovies = async (req, res, next) => {
       VALID_MEDIA_TYPES.includes(item.media_type),
     );
 
-    res.status(200).json({
-      success: true,
-      data: {
-        results: filteredResults,
-        page: data.page,
-        total_pages: data.total_pages,
-        total_results: data.total_results,
-      },
-    });
+    res.status(200).json(buildListResponse(data, filteredResults));
   } catch (err) {
     if (err.statusCode) return next(err);
     next(createTmdbError(err));
@@ -128,15 +132,7 @@ const getPopular = async (req, res, next) => {
       params: { page },
     });
 
-    res.status(200).json({
-      success: true,
-      data: {
-        results: data.results,
-        page: data.page,
-        total_pages: data.total_pages,
-        total_results: data.total_results,
-      },
-    });
+    res.status(200).json(buildListResponse(data));
   } catch (err) {
     next(createTmdbError(err));
   }
@@ -150,15 +146,7 @@ const getTopRated = async (req, res, next) => {
       params: { page },
     });
 
-    res.status(200).json({
-      success: true,
-      data: {
-        results: data.results,
-        page: data.page,
-        total_pages: data.total_pages,
-        total_results: data.total_results,
-      },
-    });
+    res.status(200).json(buildListResponse(data));
   } catch (err) {
     next(createTmdbError(err));
   }
