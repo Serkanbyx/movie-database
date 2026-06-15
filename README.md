@@ -27,6 +27,10 @@
     <a href="#api-endpoints">API Docs</a> •
     <a href="#screenshots">Screenshots</a>
   </p>
+
+  <a href="https://movie-databasee.netlify.app/">
+    <img src="./assets/screenshots/home.png" alt="MovieDB landing page" />
+  </a>
 </div>
 
 ---
@@ -57,9 +61,66 @@
 
 ## Screenshots
 
-Screenshots are best experienced live — explore the running app on the [live deployment](https://movie-databasee.netlify.app/).
+All screenshots are captured from the [live deployment](https://movie-databasee.netlify.app/).
 
-> Image assets can be added under `assets/screenshots/` (e.g. `landing.png`, `detail.png`, `favorites.png`) and embedded here as a grid once captured.
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/home.png"><img src="./assets/screenshots/home.png" alt="Home" /></a>
+      <sub><b>Home</b><br/>Hero banner & trending carousel</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/popular.png"><img src="./assets/screenshots/popular.png" alt="Popular" /></a>
+      <sub><b>Popular</b><br/>Curated popular movies grid</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/top-rated.png"><img src="./assets/screenshots/top-rated.png" alt="Top Rated" /></a>
+      <sub><b>Top Rated</b><br/>Highest-rated titles</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/search.png"><img src="./assets/screenshots/search.png" alt="Search" /></a>
+      <sub><b>Search</b><br/>Debounced multi-search results</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/movie-detail.png"><img src="./assets/screenshots/movie-detail.png" alt="Movie detail" /></a>
+      <sub><b>Movie detail</b><br/>Overview, rating, genres & list actions</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/tv-detail.png"><img src="./assets/screenshots/tv-detail.png" alt="TV detail" /></a>
+      <sub><b>TV detail</b><br/>Series info with seasons & metadata</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/login.png"><img src="./assets/screenshots/login.png" alt="Login" /></a>
+      <sub><b>Login</b><br/>JWT sign-in screen</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/register.png"><img src="./assets/screenshots/register.png" alt="Register" /></a>
+      <sub><b>Register</b><br/>Account creation with validation</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/not-found.png"><img src="./assets/screenshots/not-found.png" alt="404 page" /></a>
+      <sub><b>404</b><br/>Friendly not-found fallback</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/favorites.png"><img src="./assets/screenshots/favorites.png" alt="Favorites" /></a>
+      <sub><b>Favorites</b><br/>Personal collection of loved titles</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/watchlist.png"><img src="./assets/screenshots/watchlist.png" alt="Watchlist" /></a>
+      <sub><b>Watchlist</b><br/>Titles saved to watch later</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="./assets/screenshots/profile.png"><img src="./assets/screenshots/profile.png" alt="Profile" /></a>
+      <sub><b>Profile</b><br/>Account stats & security settings</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
